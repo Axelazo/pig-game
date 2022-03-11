@@ -29,6 +29,17 @@ const setDiceImage = function (no) {
   imgDice.src = `dice-${no}.png`;
 };
 
+//Checks if a player has win
+const checkWinner = function (player) {
+  if (gameProperties[`p${player}Score`] >= 100) {
+    sectionPlayer = document.querySelector(`.player--${player}`);
+    sectionPlayer.classList.toggle('player--winner');
+    return true;
+  } else {
+    return false;
+  }
+};
+
 //Switches between the current player
 const switchPlayer = function () {
   //Toggles the active class of the current player
@@ -63,11 +74,16 @@ const addScore = function () {
   //First we add the score to the current player, Logic
   gameProperties[`p${player}Score`] = gameProperties[`p${player}Score`] + score;
 
-  //UI
-  setScoreLabel(player);
+  //check if the player has won
+  if (checkWinner(player)) {
+    console.log('Jugador gano!');
+  } else {
+    //UI
+    setScoreLabel(player);
 
-  //Adding the hold score to the score of the player means finishing the turn, thus switching the player
-  switchPlayer();
+    //Adding the hold score to the score of the player means finishing the turn, thus switching the player
+    switchPlayer();
+  }
 };
 
 const setScoreLabel = function (player) {
